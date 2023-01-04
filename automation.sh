@@ -71,3 +71,30 @@ aws s3 \
 cp /tmp/${newf}.tar \
 s3://${s3_bucket}/${newf}.tar
 
+# Checking is inventory.html is presend or not
+
+cd /var/www/html
+
+if [ ! -f /var/www/html/inventory.html ]
+then 
+        echo "file does not exist : /var/www/html/inventory.html" || exit 1
+else
+        touch /var/www/html/inventory.html
+fi
+
+filepath="/tmp"
+filename=$(basename "$filepath")
+date_created=$(date +"%d%m%y-%H%M%S")
+log_type="httpd-logs"
+file_type="${filename##*.}"
+filesize=$(du -h /tmp/${newf}.tar| awk '{ print $1}')
+echo -e "<b>Log_type</b>\t<b>date_create</b>\t<b>file_type</b>\t<b>filesize</b>>
+echo -e "$log_type\t $date_created\t $file_type\t $filesize">>inventory.html
+
+#write out current crontab
+crontab -l > mycron
+#echo new cron into cron file
+echo "0 0 1 * * /bin/sh /root/Automation_Project/automation.sh">mycron
+#install new cron file
+crontab mycron
+rm mycron
