@@ -10,11 +10,11 @@ And finaly compress the apache log file and copy the compress file to the S3 buc
 3. Copy the automation.sh file and past it into the Auomation_Project directory.
 4. To Run the automation.sh file You have to use on of these three methods
 
-#Make the script executible
+# Make the script executible
 
 chmod  +x  /root/Automation_Project/automation.sh
 
-#switch to root user with sudo su
+# switch to root user with sudo su
 
 sudo  su
 ./root/Automation_Project/automation.sh
